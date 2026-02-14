@@ -12,16 +12,13 @@ class CustomTextField extends StatefulWidget {
   final double? height;
   final double? width;
   final bool? readOnly;
-  final bool isSuffixIconOnTap;
   final bool isDropdown;
   final bool isPassword;
-  final String? controllerTag;
   final List<String>? dropdownItems;
   final Widget? suffixIcon;
+  final Widget? prefixIcon; // ✅ PREFIX ICON
   final BorderSide? borderSide;
-  final VoidCallback? onChanged;
   final int? maxLines;
-  final bool? obscureText;
 
   const CustomTextField({
     super.key,
@@ -34,16 +31,13 @@ class CustomTextField extends StatefulWidget {
     this.height,
     this.width,
     this.readOnly = false,
-    this.controllerTag,
     this.dropdownItems,
     this.isDropdown = false,
     this.isPassword = false,
-    this.isSuffixIconOnTap = false,
-    this.onChanged,
     this.suffixIcon,
+    this.prefixIcon,
     this.borderSide,
     this.maxLines = 1,
-    this.obscureText,
   });
 
   @override
@@ -61,12 +55,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        /// Title
         if (widget.titleText != null && widget.titleText!.isNotEmpty)
           Padding(
             padding: EdgeInsets.only(bottom: 6.h),
             child: Text(
               widget.titleText!,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
 
@@ -75,11 +73,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
             SizedBox(
               height: widget.isDropdown && isOpen
                   ? (widget.height ?? 48.h) +
-                        ((widget.dropdownItems?.length ?? 0) * 38.h)
+                      ((widget.dropdownItems?.length ?? 0) * 38.h)
                   : widget.height ?? 48.h,
               width: widget.width ?? screenWidth,
             ),
 
+            /// Text Field
             TextFormField(
               controller: widget.textEditingController,
               readOnly: widget.isDropdown || widget.readOnly!,
@@ -98,22 +97,24 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 filled: true,
                 fillColor: widget.fillColor ?? Colors.white,
 
+                /// ✅ PREFIX ICON
+                prefixIcon: widget.prefixIcon,
+
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
-                  borderSide: widget.borderSide ?? BorderSide(width: 1),
+                  borderSide: widget.borderSide ?? const BorderSide(width: 1),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
-                  borderSide: widget.borderSide ?? BorderSide(width: 1),
+                  borderSide: widget.borderSide ?? const BorderSide(width: 1),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
-                  borderSide:
-                      widget.borderSide ??
-                      BorderSide(width: 1.5, color: Colors.blue),
+                  borderSide: widget.borderSide ??
+                      const BorderSide(width: 1.5, color: Colors.blue),
                 ),
 
-                // ✅ Dynamic suffix icon
+                /// SUFFIX ICON LOGIC
                 suffixIcon: widget.isDropdown
                     ? InkWell(
                         onTap: () => setState(() => isOpen = !isOpen),
@@ -124,23 +125,24 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         ),
                       )
                     : widget.isPassword
-                    ? IconButton(
-                        icon: Icon(
-                          _isPasswordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _isPasswordVisible = !_isPasswordVisible;
-                          });
-                        },
-                      )
-                    : widget.suffixIcon,
+                        ? IconButton(
+                            icon: Icon(
+                              _isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                          )
+                        : widget.suffixIcon,
               ),
             ),
 
+            /// Dropdown List
             if (widget.isDropdown && isOpen)
               Positioned(
                 top: (widget.height ?? 48.h),
@@ -151,7 +153,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     color: Colors.white,
                     border: Border.all(color: Colors.grey.shade300),
                     borderRadius: BorderRadius.circular(10.r),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.black12,
                         blurRadius: 6,
@@ -163,7 +165,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
                     itemCount: widget.dropdownItems?.length ?? 0,
-                    separatorBuilder: (_, __) => Divider(height: 0),
+                    separatorBuilder: (_, __) =>
+                        const Divider(height: 0),
                     itemBuilder: (_, index) {
                       return InkWell(
                         onTap: () {

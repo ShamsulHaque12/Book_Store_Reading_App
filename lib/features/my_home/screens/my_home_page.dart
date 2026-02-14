@@ -6,14 +6,15 @@ import 'package:book_store/features/my_home/controller/home_controller.dart';
 import 'package:book_store/features/my_home/widget/book_card.dart';
 import 'package:book_store/features/my_home/widget/image_text_card.dart';
 import 'package:book_store/features/my_home/widget/section_header.dart';
+import 'package:book_store/features/navigation_bar/controller/bottom_nav_controller.dart';
 import 'package:book_store/route/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/route_manager.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
@@ -73,23 +74,27 @@ class MyHomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Discover',
-                  style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                    color: isDark
-                        ? AppLightColor.primary
-                        : AppDarkColor.primary,
-                  ),
+                SectionHeader(
+                  title: "Recommended",
+                  titleColor: isDark
+                      ? AppLightColor.primary
+                      : AppDarkColor.primary,
+                  actionColor: AppColor.green,
+                  onTap: () {
+                    Get.toNamed(AppRoutes.seeAllDiscover);
+                  },
                 ),
                 SizedBox(height: 12.h),
-                SizedBox(
-                  height: 220.h,
-                  child: Obx(
-                    () => ListView.builder(
+                Obx(() {
+                  final totalItems = controller.modelData.length;
+                  final showCount = totalItems >= 5
+                      ? 5
+                      : totalItems; // shudhu 5 ba kom thakle sob
+                  return SizedBox(
+                    height: 220.h,
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: controller.modelData.length,
+                      itemCount: showCount,
                       itemBuilder: (context, index) {
                         final item = controller.modelData[index];
                         return BookCard(
@@ -103,13 +108,25 @@ class MyHomePage extends StatelessWidget {
                           infoColor: AppColor.green,
                           onTap: () {
                             print(item.title);
-                            // Get.to(() => BookDetailsScreen());
+                            
+                          },
+                          onMoreTap: () {
+                            showBookActionSheet(
+                              context: context,
+                              onRemove: () {
+                                controller.removeFromDiscover(index);
+                              },
+                              onShare: () {
+                                print("Share tapped");
+                                Share.share(item.title);
+                              },
+                            );
                           },
                         );
                       },
                     ),
-                  ),
-                ),
+                  );
+                }),
                 SizedBox(height: 8.h),
                 SectionHeader(
                   title: "Explore by Genre",
@@ -121,7 +138,7 @@ class MyHomePage extends StatelessWidget {
                     Get.toNamed(AppRoutes.exploreView);
                   },
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 12.h),
                 Obx(() {
                   final totalItems = controller.genreModelData.length;
                   final showCount = totalItems >= 5
@@ -157,19 +174,21 @@ class MyHomePage extends StatelessWidget {
                       : AppDarkColor.primary,
                   actionColor: AppColor.green,
                   onTap: () {
-                    print("See all tapped");
-                    // Get.to(() => GenreScreen());
+                    final controller = Get.find<BottomNavController>();
+                    controller.changeIndex(2);
                   },
                 ),
-                SizedBox(height: 8.h),
-                SizedBox(
-                  height: 220.h,
-                  child: Obx(
-                    () => ListView.builder(
+                SizedBox(height: 12.h),
+                Obx(() {
+                  final totalItems = controller.favouriteData.length;
+                  final showCount = totalItems >= 5 ? 5 : totalItems;
+                  return SizedBox(
+                    height: 220.h,
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: controller.modelData.length,
+                      itemCount: showCount,
                       itemBuilder: (context, index) {
-                        final item = controller.modelData[index];
+                        final item = controller.favouriteData[index];
                         return BookCard(
                           imageUrl: item.image,
                           title: item.title,
@@ -183,11 +202,23 @@ class MyHomePage extends StatelessWidget {
                             print(item.title);
                             // Get.to(() => BookDetailsScreen());
                           },
+                          onMoreTap: () {
+                            showBookActionSheet(
+                              context: context,
+                              onRemove: () {
+                                controller.removeFromFavourite(index);
+                              },
+                              onShare: () {
+                                print("Share tapped");
+                                Share.share(item.title);
+                              },
+                            );
+                          },
                         );
                       },
                     ),
-                  ),
-                ),
+                  );
+                }),
                 SizedBox(height: 12.h),
               ],
             ),
@@ -195,5 +226,42 @@ class MyHomePage extends StatelessWidget {
         ),
       );
     });
+  }
+
+  void showBookActionSheet({
+    required BuildContext context,
+    required VoidCallback onRemove,
+    required VoidCallback onShare,
+  }) {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.delete, color: Colors.red),
+              title: const Text('Remove'),
+              onTap: () {
+                Get.back();
+                onRemove();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.share, color: Colors.green),
+              title: const Text('Share'),
+              onTap: () {
+                Get.back();
+                onShare();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

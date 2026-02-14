@@ -3,4 +3,5 @@ class AppRoutes {
   static const home = '/home';
   static const bottomBar = '/bottom_bar';
   static const exploreView = '/explore_view';
+  static const seeAllDiscover = '/see_all_discover';
 }

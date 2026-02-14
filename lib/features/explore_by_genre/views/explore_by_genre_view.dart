@@ -20,21 +20,6 @@ class ExploreByGenreView extends StatelessWidget {
         backgroundColor: isDark
             ? AppDarkColor.background
             : AppLightColor.background,
-        // appBar: AppBar(
-        //   backgroundColor:
-        //       isDark ? AppDarkColor.background : AppLightColor.background,
-        //   elevation: 0,
-        //   scrolledUnderElevation: 0,
-        //   leading: Icon(Icons.arrow_back_ios, color: AppColor.green),
-        //   title: Text(
-        //     'Explore by Genre',
-        //     style: TextStyle(
-        //       color: AppColor.green,
-        //       fontWeight: FontWeight.bold,
-        //     ),
-        //   ),
-        //   centerTitle: true,
-        // ),
         appBar: CustomAppBar(title: 'Explore by Genre',titleColor: AppColor.green,),
         body: Padding(
           padding: EdgeInsets.all(12.w),

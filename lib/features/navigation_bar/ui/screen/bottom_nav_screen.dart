@@ -122,7 +122,7 @@ class BottomNavScreen extends StatelessWidget {
                   BlendMode.srcIn,
                 ),
               ),
-              label: 'Profile',
+              label: 'Account',
             ),
           ],
         );

@@ -10,6 +10,7 @@ class BookCard extends StatelessWidget {
   final String rate;
   final double? width;
   final VoidCallback? onTap;
+  final VoidCallback? onMoreTap; // ✅ new
   final Color titleColor;
   final Color infoColor;
 
@@ -21,6 +22,7 @@ class BookCard extends StatelessWidget {
     required this.rate,
     this.width,
     this.onTap,
+    this.onMoreTap,
     required this.titleColor,
     required this.infoColor,
   });
@@ -36,40 +38,68 @@ class BookCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Image
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
-              child: Image.network(
-                imageUrl,
-                height: 150.h,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-
-                  return SizedBox(
+            /// Image + More Icon
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(12.r)),
+                  child: Image.network(
+                    imageUrl,
                     height: 150.h,
-                    child: Center(
-                      child: SizedBox(
-                        width: 24.w,
-                        height: 24.w,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: AppColor.green,
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                              : null,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+
+                      return SizedBox(
+                        height: 150.h,
+                        child: Center(
+                          child: SizedBox(
+                            width: 24.w,
+                            height: 24.w,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColor.green,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          ),
                         ),
+                      );
+                    },
+                    errorBuilder: (_, __, ___) => SizedBox(
+                      height: 150.h,
+                      child: const Center(
+                        child: Icon(Icons.broken_image),
                       ),
                     ),
-                  );
-                },
-                errorBuilder: (_, __, ___) => SizedBox(
-                  height: 150.h,
-                  child: const Center(child: Icon(Icons.broken_image)),
+                  ),
                 ),
-              ),
+
+                /// More Icon
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: GestureDetector(
+                    onTap: onMoreTap,
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.5),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.more_vert,
+                        size: 18.sp,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
 
             /// Title
