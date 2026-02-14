@@ -1,7 +1,8 @@
 
 import 'package:book_store/app_theme_mode/app_theme.dart';
 import 'package:book_store/app_theme_mode/theme_controller.dart';
-import 'package:book_store/my_home/screens/my_home_page.dart';
+import 'package:book_store/route/app_pages.dart';
+import 'package:book_store/route/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           themeMode: ThemeMode.system,
-          home: const MyHomePage(),
+          initialRoute: AppRoutes.splash,
+          getPages: AppPages.pages,
         );
       },
     );
