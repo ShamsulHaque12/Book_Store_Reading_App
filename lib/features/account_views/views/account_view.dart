@@ -3,7 +3,10 @@ import 'package:book_store/app_themes/app_color.dart';
 import 'package:book_store/app_themes/app_icon.dart';
 import 'package:book_store/features/account_views/widgets/account_menu_tile.dart';
 import 'package:book_store/features/account_views/widgets/profile_header.dart';
+import 'package:book_store/features/change_password/views/change_password_view.dart';
 import 'package:book_store/features/edit_profile/views/edit_profile.dart';
+import 'package:book_store/features/help_center/views/help_center_views.dart';
+import 'package:book_store/features/language_screen/views/language_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -45,14 +48,14 @@ class AccountView extends StatelessWidget {
                 SizedBox(height: 12.h),
 
                 /// 🔹 Account Menu
-                AccountMenuTile(
-                  title: 'Payment Methods',
-                  iconAsset: AppIcon.purchased,
-                  isDark: isDark,
-                  onTap: () {
-                    // navigate to purchased screen
-                  },
-                ),
+                // AccountMenuTile(
+                //   title: 'Payment Methods',
+                //   iconAsset: AppIcon.purchased,
+                //   isDark: isDark,
+                //   onTap: () {
+                //     // navigate to purchased screen
+                //   },
+                // ),
                 AccountMenuTile(
                   title: 'Personal Info',
                   iconAsset: AppIcon.account,
@@ -79,7 +82,13 @@ class AccountView extends StatelessWidget {
                   subtitle: 'English',
                   iconAsset: AppIcon.purchased,
                   isDark: isDark,
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(
+                      () => LanguageView(),
+                      transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 500),
+                    );
+                  },
                 ),
                 AccountMenuTile(
                   title: 'Dark Mode',
@@ -97,7 +106,11 @@ class AccountView extends StatelessWidget {
                   iconAsset: AppIcon.password,
                   isDark: isDark,
                   onTap: () {
-                    // navigate to purchased screen
+                    Get.to(
+                      () => ChangePasswordView(),
+                      transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 500),
+                    );
                   },
                 ),
                 AccountMenuTile(
@@ -105,7 +118,11 @@ class AccountView extends StatelessWidget {
                   iconAsset: AppIcon.help,
                   isDark: isDark,
                   onTap: () {
-                    // navigate to purchased screen
+                    Get.to(
+                      () => HelpCenterViews(),
+                      transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 500),
+                    );
                   },
                 ),
                 AccountMenuTile(
@@ -130,7 +147,7 @@ class AccountView extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.r),
         ),
-        backgroundColor: isDark ? Colors.black : Colors.white,
+        backgroundColor: isDark ? AppDarkColor.background : AppLightColor.background,
         title: Text(
           'Logout',
           style: GoogleFonts.poppins(
