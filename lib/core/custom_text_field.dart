@@ -16,9 +16,10 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
   final List<String>? dropdownItems;
   final Widget? suffixIcon;
-  final Widget? prefixIcon; // ✅ PREFIX ICON
+  final Widget? prefixIcon;
   final BorderSide? borderSide;
   final int? maxLines;
+  final VoidCallback? onTap; // ✅ Tap callback (for date picker etc.)
 
   const CustomTextField({
     super.key,
@@ -38,6 +39,7 @@ class CustomTextField extends StatefulWidget {
     this.prefixIcon,
     this.borderSide,
     this.maxLines = 1,
+    this.onTap,
   });
 
   @override
@@ -55,7 +57,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// Title
+        // Title
         if (widget.titleText != null && widget.titleText!.isNotEmpty)
           Padding(
             padding: EdgeInsets.only(bottom: 6.h),
@@ -78,16 +80,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
               width: widget.width ?? screenWidth,
             ),
 
-            /// Text Field
+            // Text Field
             TextFormField(
               controller: widget.textEditingController,
-              readOnly: widget.isDropdown || widget.readOnly!,
+              readOnly: widget.isDropdown || widget.readOnly! || widget.onTap != null,
               maxLines: widget.maxLines,
               obscureText: widget.isPassword && !_isPasswordVisible,
               style: TextStyle(
                 fontSize: 14.sp,
                 color: widget.textColor ?? Colors.black,
               ),
+              onTap: widget.onTap, // ✅ Date picker or custom tap
               decoration: InputDecoration(
                 hintText: widget.hintText ?? "",
                 hintStyle: TextStyle(
@@ -96,10 +99,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 ),
                 filled: true,
                 fillColor: widget.fillColor ?? Colors.white,
-
-                /// ✅ PREFIX ICON
                 prefixIcon: widget.prefixIcon,
-
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
                   borderSide: widget.borderSide ?? const BorderSide(width: 1),
@@ -114,7 +114,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       const BorderSide(width: 1.5, color: Colors.blue),
                 ),
 
-                /// SUFFIX ICON LOGIC
+                // Suffix Icon
                 suffixIcon: widget.isDropdown
                     ? InkWell(
                         onTap: () => setState(() => isOpen = !isOpen),
@@ -142,7 +142,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ),
             ),
 
-            /// Dropdown List
+            // Dropdown List
             if (widget.isDropdown && isOpen)
               Positioned(
                 top: (widget.height ?? 48.h),
@@ -165,8 +165,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
                     itemCount: widget.dropdownItems?.length ?? 0,
-                    separatorBuilder: (_, __) =>
-                        const Divider(height: 0),
+                    separatorBuilder: (_, __) => const Divider(height: 0),
                     itemBuilder: (_, index) {
                       return InkWell(
                         onTap: () {

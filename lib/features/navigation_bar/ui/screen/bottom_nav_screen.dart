@@ -8,6 +8,7 @@ import 'package:book_store/features/favourite_views/views/favourite_view.dart';
 import 'package:book_store/features/my_home/screens/my_home_page.dart';
 import 'package:book_store/features/navigation_bar/controller/bottom_nav_controller.dart';
 import 'package:book_store/features/purchased_view/views/purchased_view.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -52,7 +53,7 @@ class BottomNavScreen extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppIcon.home,
-                height: 24,
+                height: 24.h,
                 colorFilter: ColorFilter.mode(
                   controller.currentIndex.value == 0
                       ? AppColor.green
@@ -67,7 +68,7 @@ class BottomNavScreen extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppIcon.discover,
-                height: 24,
+                height: 24.h,
                 colorFilter: ColorFilter.mode(
                   controller.currentIndex.value == 1
                       ? AppColor.green
@@ -82,7 +83,7 @@ class BottomNavScreen extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppIcon.favourite,
-                height: 24,
+                height: 24.h,
                 colorFilter: ColorFilter.mode(
                   controller.currentIndex.value == 2
                       ? AppColor.green
@@ -97,7 +98,7 @@ class BottomNavScreen extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppIcon.purchased,
-                height: 24,
+                height: 24.h,
                 colorFilter: ColorFilter.mode(
                   controller.currentIndex.value == 3
                       ? AppColor.green
@@ -112,7 +113,7 @@ class BottomNavScreen extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppIcon.account,
-                height: 24,
+                height: 24.h,
                 colorFilter: ColorFilter.mode(
                   controller.currentIndex.value == 4
                       ? AppColor.green

@@ -22,15 +22,8 @@ class AppPages {
       page: () => BottomNavScreen(),
       binding: BottomNavBindings(),
     ),
-    GetPage(
-      name: AppRoutes.home,
-      page: () => MyHomePage(),
-    ),
-    GetPage(
-      name: AppRoutes.exploreView,
-      page: () => ExploreByGenreView(),
-    ),
-    GetPage(name: AppRoutes.seeAllDiscover, page: ()=> SeeAllDiscoverView()),
-    
+    GetPage(name: AppRoutes.home, page: () => MyHomePage()),
+    GetPage(name: AppRoutes.exploreView, page: () => ExploreByGenreView()),
+    GetPage(name: AppRoutes.seeAllDiscover, page: () => SeeAllDiscoverView()),
   ];
 }
