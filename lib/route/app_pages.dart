@@ -2,6 +2,9 @@ import 'package:book_store/features/explore_by_genre/views/explore_by_genre_view
 import 'package:book_store/features/navigation_bar/bindings/bottom_nav_bindings.dart';
 import 'package:book_store/features/navigation_bar/ui/screen/bottom_nav_screen.dart';
 import 'package:book_store/features/see_all_recomanded/views/see_all_discover_view.dart';
+import 'package:book_store/features/top_categories/views/top_categories_view.dart';
+import 'package:book_store/features/top_release_Books/views/top_relase_book.dart';
+import 'package:book_store/features/top_selling/views/top_selling_views.dart';
 import 'package:book_store/route/app_routes.dart';
 import 'package:book_store/splash_screen/views/splash_view.dart';
 import 'package:get/get.dart';
@@ -25,5 +28,8 @@ class AppPages {
     GetPage(name: AppRoutes.home, page: () => MyHomePage()),
     GetPage(name: AppRoutes.exploreView, page: () => ExploreByGenreView()),
     GetPage(name: AppRoutes.seeAllDiscover, page: () => SeeAllDiscoverView()),
+    GetPage(name: AppRoutes.topCategoei, page: ()=> TopCategoriesView()),
+    GetPage(name: AppRoutes.topSell, page: ()=> TopSellingViews()),
+    GetPage(name: AppRoutes.topRelaseBook, page: ()=> TopRelaseBook()),
   ];
 }

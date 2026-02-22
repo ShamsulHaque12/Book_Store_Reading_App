@@ -75,7 +75,7 @@ class MyHomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SectionHeader(
-                  title: "Recommended",
+                  title: "Free Books",
                   titleColor: isDark
                       ? AppLightColor.primary
                       : AppDarkColor.primary,

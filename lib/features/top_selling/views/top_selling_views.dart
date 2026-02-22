@@ -1,48 +1,37 @@
+import 'package:book_store/app_theme_mode/theme_controller.dart';
+import 'package:book_store/app_themes/app_color.dart';
+import 'package:book_store/core/custom_app_bar.dart';
+import 'package:book_store/core/custom_text_field.dart';
+import 'package:book_store/features/discover_views/controller/discover_controller.dart';
+import 'package:book_store/features/my_home/widget/book_card.dart';
+import 'package:book_store/features/top_selling/controller/top_selling_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'package:book_store/app_theme_mode/theme_controller.dart';
-import 'package:book_store/app_themes/app_color.dart';
-import 'package:book_store/core/custom_app_bar.dart';
-import 'package:book_store/core/custom_text_field.dart';
-import 'package:book_store/features/my_home/controller/home_controller.dart';
-import 'package:book_store/features/my_home/widget/book_card.dart';
-import 'package:book_store/features/see_all_recomanded/controller/see_all_recomanded_controller.dart';
-
-class SeeAllDiscoverView extends StatelessWidget {
-  SeeAllDiscoverView({super.key});
-
-  final SeeAllRecomandedController seeAllRecomandedController =
-      Get.put(SeeAllRecomandedController());
-
-  final HomeController controller = Get.find<HomeController>();
+class TopSellingViews extends StatelessWidget {
+  TopSellingViews({super.key});
+  final TopSellingController topSellingController = Get.put(TopSellingController());
+  final DiscoverController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
     final theme = Get.find<ThemeController>();
-
     return Obx(() {
       final isDark = theme.isDark.value;
-
       return Scaffold(
-        backgroundColor:
-            isDark ? AppDarkColor.background : AppLightColor.background,
-
-        appBar: CustomAppBar(
-          title: 'See All Free Books',
-          titleColor: AppColor.green,
-        ),
-
+        backgroundColor: isDark
+            ? AppDarkColor.background
+            : AppLightColor.background,
+        appBar: CustomAppBar(title: 'Top Selling', titleColor: AppColor.green),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child: Column(
             children: [
-              /// 🔍 Search
               CustomTextField(
                 textEditingController:
-                    seeAllRecomandedController.searchController,
+                    topSellingController.searchController,
                 hintText: 'Search Book',
                 fillColor: Colors.transparent,
                 borderSide: BorderSide(
@@ -51,16 +40,16 @@ class SeeAllDiscoverView extends StatelessWidget {
                 textColor: isDark
                     ? AppLightColor.primary
                     : AppDarkColor.primary,
-                prefixIcon: Icon(Icons.search, color: AppColor.green),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: AppColor.green,
+                ),
               ),
-
               SizedBox(height: 16.h),
-
-              /// 📚 Books Grid
               Expanded(
                 child: Obx(() {
                   return GridView.builder(
-                    itemCount: controller.modelData.length,
+                    itemCount: controller.topSell.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 12.h,
@@ -68,8 +57,7 @@ class SeeAllDiscoverView extends StatelessWidget {
                       childAspectRatio: 3 / 4,
                     ),
                     itemBuilder: (context, index) {
-                      final item = controller.modelData[index];
-
+                      final item = controller.topSell[index];
                       return BookCard(
                         imageUrl: item.image,
                         title: item.title,
@@ -79,21 +67,18 @@ class SeeAllDiscoverView extends StatelessWidget {
                             ? AppLightColor.primary
                             : AppDarkColor.primary,
                         infoColor: AppColor.green,
-
                         onTap: () {
-                          debugPrint(item.title);
+                          print(item.title);
                         },
-
                         onMoreTap: () {
                           showBookActionSheet(
                             context: context,
                             onRemove: () {
-                              controller.removeFromDiscover(index);
+                              controller.removeTopSell(index);
                             },
                             onShare: () {
-                              Share.share(
-                                '📚 ${item.title}\n💰 Price: ${item.price}',
-                              );
+                              print("Share tapped");
+                              Share.share(item.title);
                             },
                           );
                         },
@@ -108,8 +93,6 @@ class SeeAllDiscoverView extends StatelessWidget {
       );
     });
   }
-
-  /// 🔽 Bottom Sheet
   void showBookActionSheet({
     required BuildContext context,
     required VoidCallback onRemove,
@@ -120,9 +103,7 @@ class SeeAllDiscoverView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(16),
-          ),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
