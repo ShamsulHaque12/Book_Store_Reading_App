@@ -3,6 +3,7 @@ import 'package:book_store/app_themes/app_color.dart';
 import 'package:book_store/core/custom_app_bar.dart';
 import 'package:book_store/features/my_home/controller/home_controller.dart';
 import 'package:book_store/features/my_home/widget/image_text_card.dart';
+import 'package:book_store/route/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,10 @@ class ExploreByGenreView extends StatelessWidget {
         backgroundColor: isDark
             ? AppDarkColor.background
             : AppLightColor.background,
-        appBar: CustomAppBar(title: 'Explore by Genre',titleColor: AppColor.green,),
+        appBar: CustomAppBar(
+          title: 'Explore by Genre',
+          titleColor: AppColor.green,
+        ),
         body: Padding(
           padding: EdgeInsets.all(12.w),
           child: GridView.builder(
@@ -37,7 +41,10 @@ class ExploreByGenreView extends StatelessWidget {
                 imageUrl: item.image,
                 title: item.title,
                 onTap: () {
-                  print("Item tapped: ${item.title}");
+                  Get.toNamed(
+                    AppRoutes.allGenreBookView,
+                    arguments: {"title": item.title},
+                  );
                 },
               );
             },

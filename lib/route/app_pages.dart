@@ -1,7 +1,10 @@
+import 'package:book_store/features/all_genre_books/views/all_genre_book_view.dart';
+import 'package:book_store/features/book_details/views/book_details_view.dart';
+import 'package:book_store/features/book_details/views/free_book_details_view.dart';
 import 'package:book_store/features/explore_by_genre/views/explore_by_genre_view.dart';
 import 'package:book_store/features/navigation_bar/bindings/bottom_nav_bindings.dart';
 import 'package:book_store/features/navigation_bar/ui/screen/bottom_nav_screen.dart';
-import 'package:book_store/features/see_all_recomanded/views/see_all_discover_view.dart';
+import 'package:book_store/features/see_all_free_book/views/see_all_discover_view.dart';
 import 'package:book_store/features/top_categories/views/top_categories_view.dart';
 import 'package:book_store/features/top_release_Books/views/top_relase_book.dart';
 import 'package:book_store/features/top_selling/views/top_selling_views.dart';
@@ -31,5 +34,8 @@ class AppPages {
     GetPage(name: AppRoutes.topCategoei, page: ()=> TopCategoriesView()),
     GetPage(name: AppRoutes.topSell, page: ()=> TopSellingViews()),
     GetPage(name: AppRoutes.topRelaseBook, page: ()=> TopRelaseBook()),
+    GetPage(name: AppRoutes.allGenreBookView, page: ()=> AllGenreBookView()),
+    GetPage(name: AppRoutes.bookDetailsView, page: ()=> BookDetailsView()),
+    GetPage(name: AppRoutes.freeBookDetailsView, page: ()=> FreeBookDetailsView()),
   ];
 }

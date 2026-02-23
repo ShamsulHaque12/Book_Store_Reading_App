@@ -107,8 +107,7 @@ class MyHomePage extends StatelessWidget {
                               : AppDarkColor.primary,
                           infoColor: AppColor.green,
                           onTap: () {
-                            print(item.title);
-                            
+                            Get.toNamed(AppRoutes.freeBookDetailsView, arguments: item);
                           },
                           onMoreTap: () {
                             showBookActionSheet(
@@ -157,7 +156,9 @@ class MyHomePage extends StatelessWidget {
                             imageUrl: item.image,
                             title: item.title,
                             onTap: () {
-                              print("Item tapped: ${item.title}");
+                              Get.toNamed(AppRoutes.allGenreBookView,arguments: {
+                                "title":item.title
+                              });
                             },
                           ),
                         );

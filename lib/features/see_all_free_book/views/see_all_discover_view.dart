@@ -1,3 +1,4 @@
+import 'package:book_store/route/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,7 @@ import 'package:book_store/core/custom_app_bar.dart';
 import 'package:book_store/core/custom_text_field.dart';
 import 'package:book_store/features/my_home/controller/home_controller.dart';
 import 'package:book_store/features/my_home/widget/book_card.dart';
-import 'package:book_store/features/see_all_recomanded/controller/see_all_recomanded_controller.dart';
+import 'package:book_store/features/see_all_free_book/controller/see_all_recomanded_controller.dart';
 
 class SeeAllDiscoverView extends StatelessWidget {
   SeeAllDiscoverView({super.key});
@@ -81,7 +82,7 @@ class SeeAllDiscoverView extends StatelessWidget {
                         infoColor: AppColor.green,
 
                         onTap: () {
-                          debugPrint(item.title);
+                          Get.toNamed(AppRoutes.freeBookDetailsView, arguments: item);
                         },
 
                         onMoreTap: () {
