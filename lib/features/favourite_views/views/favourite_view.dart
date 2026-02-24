@@ -30,139 +30,150 @@ class FavouriteView extends StatelessWidget {
         backgroundColor: isDark
             ? AppDarkColor.background
             : AppLightColor.background,
-        appBar: CustomAppBar(
-          title: 'Favourite',
-          titleColor: AppColor.green,
-          showBack: false,
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: Column(
-            children: [
-              /// 🔍 Search
-              CustomTextField(
-                textEditingController: favouriteController.searchController,
-                hintText: 'Search Book',
-                fillColor: Colors.transparent,
-                borderSide: BorderSide(color: AppColor.green),
-                textColor: isDark
-                    ? AppLightColor.primary
-                    : AppDarkColor.primary,
-                prefixIcon: Icon(Icons.search, color: AppColor.green),
-              ),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Favourite",
+                  style: GoogleFonts.inter(
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w600,
+                    color: isDark
+                        ? AppLightColor.primary
+                        : AppDarkColor.primary,
+                  ),
+                ),
+                SizedBox(height: 16.h),
 
-              SizedBox(height: 16.h),
+                /// 🔍 Search
+                CustomTextField(
+                  textEditingController: favouriteController.searchController,
+                  hintText: 'Search Book',
+                  fillColor: Colors.transparent,
+                  borderSide: BorderSide(color: AppColor.green),
+                  textColor: isDark
+                      ? AppLightColor.primary
+                      : AppDarkColor.primary,
+                  prefixIcon: Icon(Icons.search, color: AppColor.green),
+                ),
 
-              /// 📚 Favourite List
-              Expanded(
-                child: Obx(() {
-                  if (controller.favouriteData.isEmpty) {
-                    return const Center(
-                      child: Text('No favourite books found'),
-                    );
-                  }
+                SizedBox(height: 16.h),
 
-                  return ListView.builder(
-                    itemCount: controller.favouriteData.length,
-                    itemBuilder: (context, index) {
-                      final item = controller.favouriteData[index];
+                /// 📚 Favourite List
+                Expanded(
+                  child: Obx(() {
+                    if (controller.favouriteData.isEmpty) {
+                      return const Center(
+                        child: Text('No favourite books found'),
+                      );
+                    }
 
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 16.h),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            /// Image
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8.r),
-                              child: Image.network(
-                                item.image,
-                                width: 120.w,
-                                height: 150.h,
-                                fit: BoxFit.cover,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return SizedBox(
-                                        width: 120.w,
-                                        height: 150.h,
-                                        child: const Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
+                    return ListView.builder(
+                      itemCount: controller.favouriteData.length,
+                      itemBuilder: (context, index) {
+                        final item = controller.favouriteData[index];
+
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 16.h),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              /// Image
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.r),
+                                child: Image.network(
+                                  item.image,
+                                  width: 120.w,
+                                  height: 150.h,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return SizedBox(
+                                          width: 120.w,
+                                          height: 150.h,
+                                          child: const Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        );
+                                      },
+                                  errorBuilder: (_, __, ___) =>
+                                      const Icon(Icons.broken_image, size: 80),
+                                ),
+                              ),
+
+                              SizedBox(width: 16.w),
+
+                              /// Info
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.title,
+                                      style: GoogleFonts.inter(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18.sp,
+                                        color: AppColor.green,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    Text(
+                                      item.price,
+                                      style: GoogleFonts.inter(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.sp,
+                                        color: isDark
+                                            ? AppLightColor.primary
+                                            : AppDarkColor.primary,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    Text(
+                                      "⭐ ${item.rate}",
+                                      style: GoogleFonts.inter(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14.sp,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              /// More Icon
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.more_vert,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  showBookActionSheet(
+                                    context: context,
+                                    onRemove: () {
+                                      controller.removeFromFavourite(index);
+                                    },
+                                    onShare: () {
+                                      Share.share(
+                                        '📚 ${item.title}\n💰 Price: ${item.price}',
                                       );
                                     },
-                                errorBuilder: (_, __, ___) =>
-                                    const Icon(Icons.broken_image, size: 80),
+                                  );
+                                },
                               ),
-                            ),
-
-                            SizedBox(width: 16.w),
-
-                            /// Info
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    item.title,
-                                    style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18.sp,
-                                      color: AppColor.green,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8.h),
-                                  Text(
-                                    item.price,
-                                    style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14.sp,
-                                      color: isDark
-                                          ? AppLightColor.primary
-                                          : AppDarkColor.primary,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8.h),
-                                  Text(
-                                    "⭐ ${item.rate}",
-                                    style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14.sp,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            /// More Icon
-                            IconButton(
-                              icon: const Icon(
-                                Icons.more_vert,
-                                color: Colors.red,
-                              ),
-                              onPressed: () {
-                                showBookActionSheet(
-                                  context: context,
-                                  onRemove: () {
-                                    controller.removeFromFavourite(index);
-                                  },
-                                  onShare: () {
-                                    Share.share(
-                                      '📚 ${item.title}\n💰 Price: ${item.price}',
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                }),
-              ),
-            ],
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }),
+                ),
+              ],
+            ),
           ),
         ),
       );

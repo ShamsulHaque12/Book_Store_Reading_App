@@ -200,8 +200,7 @@ class MyHomePage extends StatelessWidget {
                               : AppDarkColor.primary,
                           infoColor: AppColor.green,
                           onTap: () {
-                            print(item.title);
-                            // Get.to(() => BookDetailsScreen());
+                            // Get.toNamed(AppRoutes.freeBookDetailsView, arguments: item);
                           },
                           onMoreTap: () {
                             showBookActionSheet(

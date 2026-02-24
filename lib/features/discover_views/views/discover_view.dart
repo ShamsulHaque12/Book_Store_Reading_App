@@ -12,6 +12,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DiscoverView extends StatelessWidget {
@@ -30,176 +31,184 @@ class DiscoverView extends StatelessWidget {
         backgroundColor: isDark
             ? AppDarkColor.background
             : AppLightColor.background,
-        appBar: CustomAppBar(
-          title: 'Discover',
-          titleColor: AppColor.green,
-          showBack: false,
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// 🔍 Search
-              CustomTextField(
-                textEditingController: controller.searchController,
-                hintText: 'Search Book',
-                fillColor: Colors.transparent,
-                borderSide: BorderSide(color: AppColor.green),
-                textColor: isDark
-                    ? AppLightColor.primary
-                    : AppDarkColor.primary,
-                prefixIcon: Icon(Icons.search, color: AppColor.green),
-              ),
-
-              SizedBox(height: 12.h),
-
-              SectionHeader(
-                title: "Top Categories",
-                titleColor: isDark
-                    ? AppLightColor.primary
-                    : AppDarkColor.primary,
-                actionColor: AppColor.green,
-                onTap: () {
-                  Get.toNamed(AppRoutes.topCategoei);
-                },
-              ),
-
-              SizedBox(height: 8.h),
-
-              SizedBox(
-                height: 220.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.topCategories.length > 5
-                      ? 5
-                      : controller.topCategories.length,
-                  itemBuilder: (context, index) {
-                    final item = controller.topCategories[index];
-                    return BookCard(
-                      imageUrl: item.image,
-                      title: item.title,
-                      rate: item.rate,
-                      price: item.price,
-                      titleColor: isDark
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                 Text(
+                    "Discover",
+                    style: GoogleFonts.inter(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w600,
+                      color: isDark
                           ? AppLightColor.primary
                           : AppDarkColor.primary,
-                      infoColor: AppColor.green,
-                      onTap: () {
-                        print(item.title);
-                      },
-                      onMoreTap: () {
-                        showBookActionSheet(
-                          context: context,
-                          onRemove: () {
-                            controller.removeTopCategories(index);
-                          },
-                          onShare: () {
-                            print("Share tapped");
-                            Share.share(item.title);
-                          },
-                        );
-                      },
-                    );
+                    ),
+                  ),
+                SizedBox(height: 16.h),
+                /// 🔍 Search
+                CustomTextField(
+                  textEditingController: controller.searchController,
+                  hintText: 'Search Book',
+                  fillColor: Colors.transparent,
+                  borderSide: BorderSide(color: AppColor.green),
+                  textColor: isDark
+                      ? AppLightColor.primary
+                      : AppDarkColor.primary,
+                  prefixIcon: Icon(Icons.search, color: AppColor.green),
+                ),
+          
+                SizedBox(height: 12.h),
+          
+                SectionHeader(
+                  title: "Top Categories",
+                  titleColor: isDark
+                      ? AppLightColor.primary
+                      : AppDarkColor.primary,
+                  actionColor: AppColor.green,
+                  onTap: () {
+                    Get.toNamed(AppRoutes.topCategoei);
                   },
                 ),
-              ),
-              SizedBox(height: 12.h),
-              SectionHeader(
-                title: "Top Sellings",
-                titleColor: isDark
-                    ? AppLightColor.primary
-                    : AppDarkColor.primary,
-                actionColor: AppColor.green,
-                onTap: () {
-                  Get.toNamed(AppRoutes.topSell);
-                },
-              ),
-              SizedBox(height: 8.h),
-              SizedBox(
-                height: 220.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.topSell.length > 5
-                      ? 5
-                      : controller.topSell.length,
-                  itemBuilder: (context, index) {
-                    final item = controller.topSell[index];
-                    return BookCard(
-                      imageUrl: item.image,
-                      title: item.title,
-                      rate: item.rate,
-                      price: item.price,
-                      titleColor: isDark
-                          ? AppLightColor.primary
-                          : AppDarkColor.primary,
-                      infoColor: AppColor.green,
-                      onTap: () {},
-                      onMoreTap: () {
-                        showBookActionSheet(
-                          context: context,
-                          onRemove: () {
-                            controller.removeTopSell(index);
-                          },
-                          onShare: () {
-                            print("Share tapped");
-                            Share.share(item.title);
-                          },
-                        );
-                      },
-                    );
+          
+                SizedBox(height: 8.h),
+          
+                SizedBox(
+                  height: 220.h,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.topCategories.length > 5
+                        ? 5
+                        : controller.topCategories.length,
+                    itemBuilder: (context, index) {
+                      final item = controller.topCategories[index];
+                      return BookCard(
+                        imageUrl: item.image,
+                        title: item.title,
+                        rate: item.rate,
+                        price: item.price,
+                        titleColor: isDark
+                            ? AppLightColor.primary
+                            : AppDarkColor.primary,
+                        infoColor: AppColor.green,
+                        onTap: () {
+                          print(item.title);
+                        },
+                        onMoreTap: () {
+                          showBookActionSheet(
+                            context: context,
+                            onRemove: () {
+                              controller.removeTopCategories(index);
+                            },
+                            onShare: () {
+                              print("Share tapped");
+                              Share.share(item.title);
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                SectionHeader(
+                  title: "Top Sellings",
+                  titleColor: isDark
+                      ? AppLightColor.primary
+                      : AppDarkColor.primary,
+                  actionColor: AppColor.green,
+                  onTap: () {
+                    Get.toNamed(AppRoutes.topSell);
                   },
                 ),
-              ),
-              SizedBox(height: 12.h),
-              SectionHeader(
-                title: "Top New Releases",
-                titleColor: isDark
-                    ? AppLightColor.primary
-                    : AppDarkColor.primary,
-                actionColor: AppColor.green,
-                onTap: () {
-                  Get.toNamed(AppRoutes.topRelaseBook);
-                },
-              ),
-              SizedBox(height: 8.h),
-              SizedBox(
-                height: 220.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.topRelease.length > 5
-                      ? 5
-                      : controller.topRelease.length,
-                  itemBuilder: (context, index) {
-                    final item = controller.topRelease[index];
-                    return BookCard(
-                      imageUrl: item.image,
-                      title: item.title,
-                      rate: item.rate,
-                      price: item.price,
-                      titleColor: isDark
-                          ? AppLightColor.primary
-                          : AppDarkColor.primary,
-                      infoColor: AppColor.green,
-                      onTap: () {},
-                      onMoreTap: () {
-                        showBookActionSheet(
-                          context: context,
-                          onRemove: () {
-                            controller.removeTopRelease(index);
-                          },
-                          onShare: () {
-                            print("Share tapped");
-                            Share.share(item.title);
-                          },
-                        );
-                      },
-                    );
+                SizedBox(height: 8.h),
+                SizedBox(
+                  height: 220.h,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.topSell.length > 5
+                        ? 5
+                        : controller.topSell.length,
+                    itemBuilder: (context, index) {
+                      final item = controller.topSell[index];
+                      return BookCard(
+                        imageUrl: item.image,
+                        title: item.title,
+                        rate: item.rate,
+                        price: item.price,
+                        titleColor: isDark
+                            ? AppLightColor.primary
+                            : AppDarkColor.primary,
+                        infoColor: AppColor.green,
+                        onTap: () {},
+                        onMoreTap: () {
+                          showBookActionSheet(
+                            context: context,
+                            onRemove: () {
+                              controller.removeTopSell(index);
+                            },
+                            onShare: () {
+                              print("Share tapped");
+                              Share.share(item.title);
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                SectionHeader(
+                  title: "Top New Releases",
+                  titleColor: isDark
+                      ? AppLightColor.primary
+                      : AppDarkColor.primary,
+                  actionColor: AppColor.green,
+                  onTap: () {
+                    Get.toNamed(AppRoutes.topRelaseBook);
                   },
                 ),
-              ),
-              SizedBox(height: 20.h),
-            ],
+                SizedBox(height: 8.h),
+                SizedBox(
+                  height: 220.h,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.topRelease.length > 5
+                        ? 5
+                        : controller.topRelease.length,
+                    itemBuilder: (context, index) {
+                      final item = controller.topRelease[index];
+                      return BookCard(
+                        imageUrl: item.image,
+                        title: item.title,
+                        rate: item.rate,
+                        price: item.price,
+                        titleColor: isDark
+                            ? AppLightColor.primary
+                            : AppDarkColor.primary,
+                        infoColor: AppColor.green,
+                        onTap: () {},
+                        onMoreTap: () {
+                          showBookActionSheet(
+                            context: context,
+                            onRemove: () {
+                              controller.removeTopRelease(index);
+                            },
+                            onShare: () {
+                              print("Share tapped");
+                              Share.share(item.title);
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 20.h),
+              ],
+            ),
           ),
         ),
       );

@@ -24,12 +24,13 @@ class SplashView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset(
-              'assets/images/reading.json',
-              width: double.infinity,
-              height: 300.h,
-              fit: BoxFit.contain,
-            ),
+            // Lottie.asset(
+            //   'assets/images/reading.json',
+            //   width: double.infinity,
+            //   height: 300.h,
+            //   fit: BoxFit.contain,
+            // ),
+            
             SizedBox(height: 30.h),
             Text(
               'Welcome to BookStore',
@@ -56,6 +57,10 @@ class SplashView extends StatelessWidget {
                 fontWeight: FontWeight.w300,
                 color: Colors.grey[500],
               ),
+            ),
+            SizedBox(height: 20.h),
+            CircularProgressIndicator(
+              color: Colors.deepPurple,
             ),
           ],
         ),

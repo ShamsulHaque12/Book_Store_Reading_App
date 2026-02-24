@@ -1,3 +1,8 @@
+import 'package:book_store/auth_screen/forgot_password/screens/forgot_gmail_otp_screen.dart';
+import 'package:book_store/auth_screen/forgot_password/screens/forgot_gmail_screen.dart';
+import 'package:book_store/auth_screen/login_screen/screens/log_in_screen.dart';
+import 'package:book_store/auth_screen/otp_screen/screens/otp_screen.dart';
+import 'package:book_store/auth_screen/sign_up_screen/screens/sign_up_screen.dart';
 import 'package:book_store/features/all_genre_books/views/all_genre_book_view.dart';
 import 'package:book_store/features/book_details/views/book_details_view.dart';
 import 'package:book_store/features/book_details/views/free_book_details_view.dart';
@@ -23,6 +28,16 @@ class AppPages {
         Get.put(SplashController());
       }),
     ),
+    GetPage(name: AppRoutes.loginInScreen, page: () => LogInScreen()),
+    GetPage(name: AppRoutes.signUpScreen, page: () => SignUpScreen()),
+    GetPage(name: AppRoutes.forgotGmailScreen, page: () => ForgotGmailScreen()),
+    GetPage(name: AppRoutes.forgotGmailOtpScreen, page: () => ForgotGmailOtpScreen()),
+    GetPage(name: AppRoutes.otpScreen, page: () => OtpScreen()),
+
+
+
+
+
     GetPage(
       name: AppRoutes.bottomBar,
       page: () => BottomNavScreen(),
