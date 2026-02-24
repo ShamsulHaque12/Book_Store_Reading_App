@@ -91,8 +91,9 @@ class FavouriteView extends StatelessWidget {
                                   fit: BoxFit.cover,
                                   loadingBuilder:
                                       (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
+                                        if (loadingProgress == null) {
                                           return child;
+                                        }
                                         return SizedBox(
                                           width: 120.w,
                                           height: 150.h,

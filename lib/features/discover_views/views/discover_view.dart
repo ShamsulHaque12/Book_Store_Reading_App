@@ -1,6 +1,5 @@
 import 'package:book_store/app_theme_mode/theme_controller.dart';
 import 'package:book_store/app_themes/app_color.dart';
-import 'package:book_store/core/custom_app_bar.dart';
 import 'package:book_store/core/custom_text_field.dart';
 import 'package:book_store/features/discover_views/controller/discover_controller.dart';
 import 'package:book_store/features/my_home/widget/book_card.dart';
